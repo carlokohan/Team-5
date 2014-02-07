@@ -1,0 +1,16 @@
+Bali ilalagay niyo yung brief details na ginagawa ng function
+tapos ilagay niyo yung paramater at return type w/ description. pag wala, none
+lang ilagay niyo (@param none)
+
+/**
+* Function retrieves all data from the specified table
+*
+*@param (string) - name of table
+*@returns (array) - values from the database
+*/
+function retrieve_all($table){
+$query = $this->db->get($table);
+return $query->result();
+}
+
+

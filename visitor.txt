@@ -1,0 +1,69 @@
+VISITOR 
+
+> types in the search box then hits enter or clicks search button
+	-will check if the visitor typed any character, if none, a notification will be shown
+> (valid input) redirects to another page and now performs the query
+	-the default search would be by title, alphabetical arrangement)
+
+> will now display the results, 10 per page (pagination will be used), alphabetical order
+	-info to be shown: Title, author(s), year published, publisher, course code
+	-there will be a link below each result "view book" which when clicked, redirects 
+	 the visitor to the full details of the book if available or not w/ current number in
+	 the library.
+
+> advanced search is also available. it is a button that when clicked, a modal will appear and
+  there you will find a form for searching the Title, author(s), year published, publisher,
+  course code.
+
+* each single result will have a "reserve" button located beside "view book". since it is only
+  a visitor, a pop-up/modal will show that you must first log-in to be able to reserve.
+
+* different sorting schemes will show just below the search field. (by year, A-Z, Z-A, by course
+  code, alphabetical by author).
+
+* search algorithm: will search for the whole typed keyword, if no results found, tokenize the
+  typed keyword and query every keyword.
+
+sample UI:
+
+ -------------------
+|Java Language      |  (Search)   (Advance Search) 
+ -------------------
+ o sort by year    o sort from Z to A  . . . etc.
+
+ ---------------
+| 1 | 2 | 3 | 4 | 
+ ---------------
+Java Language book. 2013. Recario, Reginald . . .
+
+				(view book) (reserve)
+
+
+----------------------------------------------------------
+----------------------------------------------------------
+
+Carting system 
+
+> User has logged in and Reference material is available.
+
+> User presses “Add To Cart” button found near the Title of the reference material they 
+  wish to reserve.
+
+> Adds to the cart with notification to be shown that it was successfully added to cart.
+ (since it won't affect the database, adding to cart won't check for availability of book)
+
+> cart will display Title, author, year. a reserve button is also shown per entry.
+  if reserve button is clicked, if successfull, the item will be removed.
+
+* add to cart button won't show in the results per search unless logged in.
+
+* it has remove this item from cart and empty cart feature.
+
+* there will be select button on left for removing of selected items from cart.
+
+* view cart is a button that when clicked, it will show the user's cart
+
+* one cart entry per book, meaning the quantity will always be one; thus editing the cart is
+  unneccessary
+
+* carting may have a limit (20 books i guess?)

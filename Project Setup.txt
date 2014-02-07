@@ -1,0 +1,20 @@
+===============
+ Project Setup
+===============
+Coding standards
+> Controllers: controller_name
+> Models: name_model
+> Views: name_view
+> Variable: bookTitle
+> Method: get_comments
+
+1.) Extract "icsls.zip" to C:/wamp/www.
+2.) Import "ICS Library System Database.sql". Note: Read the contents
+3.) Configure CodeIgniter to:
+a. Automatically load database and session libraries through autoload.php
+b. Automatically load url helper through application/autoload.php
+c. Automatically load "user_model" model through application/autoload.php
+d. Set base url to "http://localhost/icsls/" through application/config.php
+e. Allow rewrite short tags through application/config.php
+e. Set the username, password and database name in application/database.php
+f. Set the default controller to "home" through application/routes.php
