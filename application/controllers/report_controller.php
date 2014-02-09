@@ -2,7 +2,7 @@
 /**
  * Report generating class using FPDF
  *
- * @author	Jose Carlo Husmillo, Jan Claude Quevedo
+ * @author	Jose Carlo Husmillo, Jan Claudette Quevedo
  * @version 1.0
  */
 class Report_Controller extends CI_Controller{
@@ -30,8 +30,11 @@ class Report_Controller extends CI_Controller{
 
 	public function view_report(){
 		$data['title'] = "Report - ICS Library System";
-		$this->load->library('fpdf/fpdf');
-		//call function from model for query
+		$this->load->library('fpdf/fpdf')
+		$this->load->model('user_model');
+		$type = $_POST['print_by'];
+		$result = $this->user_model->get_data($type);
+		$data['result'] = $result->result();
 		$this->load->view('pdf_report_view', $data);
 	}
 }	
