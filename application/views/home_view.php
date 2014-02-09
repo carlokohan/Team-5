@@ -3,15 +3,14 @@
 	<?php //echo form_open('home/search_reference'); 
 	
 	?>
-	<form action="<?php echo base_url('index.php/home/search_reference'); ?>" method="get" accept-charset="utf-8">		
+	<form action="<?php echo base_url('index.php/home/search_reference'); ?>" method="get" accept-charset="utf-8"  >		
 		<input type="text" name="keyword" size="50"/>
-		<input type="submit" value="Search" /> 
+		<input type="submit" value="Search" onclick="javascript: return validateSearch()"/> 
 	</form>
-
 		<div id = "search-whole">
 				<a href="#" class = "search-toggle">Advanced Search</a>
 			<div class = "search-hidden">
-				<?php echo form_open('home/advanced_view_reference'); ?>
+				<form action="<?php echo base_url('index.php/home/advanced_search_reference'); ?>" method="get" accept-charset="utf-8">
 				
 				<table>
 					<tr><td><input value="title" type="checkbox" name="projection[]" checked="true">Title:</td><td><input type="text" name="title" size = "30"><br/></td></tr>

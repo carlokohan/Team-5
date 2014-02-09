@@ -1,8 +1,14 @@
 <?php
-
+/**
+ * Visitor model class
+ *
+ * @author	Jose Carlo Husmillo, Khemberly Cumal
+ * @version 1.0
+ */
 class User_model extends CI_Model{
 	/**
-	*	Function gets the specified reference materials from table with matching keyword
+	*	Function gets the specified reference materials from table with matching keyword; used for pagination
+	*
 	*	@param $keyword (string)
 	*	@return rows from db || null
 	*/
@@ -12,7 +18,9 @@ class User_model extends CI_Model{
 	}
 
 	/**
-	*	Function gets the specified reference materials from table with matching keyword
+	*	Function gets the specified reference materials from table with matching keyword; used for pagination's
+	*	total page number
+	*
 	*	@param $keyword (string)
 	*	@return rows from db || null
 	*/
@@ -22,7 +30,9 @@ class User_model extends CI_Model{
 
 
 	/**
-	*	Function gets the specified reference materials from table with matching keyword
+	*	Function gets the specified reference materials from table with matching keyword; used when first
+	*	query returned 0.
+	*
 	*	@param $keyword (string), $limit (int), $offset(int)
 	*	@return rows from db || null
 	*/
@@ -38,7 +48,8 @@ class User_model extends CI_Model{
 	}
 
 	/**
-	*	Function gets the specified reference materials from table with matching keyword
+	*	Function gets the specified reference materials from table with matching keyword; used for pagination
+	*
 	*	@param $keywords (string)
 	*	@return rows from db || null
 	*/
@@ -52,7 +63,8 @@ class User_model extends CI_Model{
 	}
 
 	/**
-	*	Function gets the exact reference material based from unique id
+	*	Function gets the exact reference material based from unique id; for viewing the book
+	*
 	*	@param $bookid (string)
 	*	@return rows from db || null
 	*/
@@ -61,11 +73,22 @@ class User_model extends CI_Model{
 	}
 
 	/**
-	*	Function gets the exact reference material based from unique id
+	*	Function gets the reference materials using the advanced search
+	*
 	*	@param $query (string)
 	*	@return rows from db || null
 	*/
 	public function advanced_search($query){
+		return $this->db->query($query);
+	}
+
+	/**
+	*	Function gets the reference materials using the advanced search; without offset
+	*
+	*	@param $query (string)
+	*	@return rows from db || null
+	*/
+	public function advanced_search2($query){
 		return $this->db->query($query);
 	}
 

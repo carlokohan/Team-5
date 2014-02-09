@@ -1,7 +1,17 @@
 <?php
-
+/**
+ * Main Controller class
+ *
+ * @author	Jose Carlo Husmillo, Khemberly Cumal
+ * @version 1.0
+ */
 class Home extends CI_Controller{
 
+	/**
+	 * Main controller class' constructor
+	 *
+	 * @access	public
+	 */
 	public function Home(){
 		parent::__construct();
 		$this->load->model('user_model');
@@ -10,16 +20,22 @@ class Home extends CI_Controller{
 		$this->load->library('pagination');
 	}
 
+	/**
+	 * Home class' main function
+	 *
+	 * @access	public
+	 */
 	public function index(){
 		$data["title"] = "Home - ICS Library System";
 		$this->load->view("home_view", $data);
 	}
 
 	/**
-	*	function calls the model function responsible for retrieving data
+	*	Function calls the model function responsible for retrieving data
+	*	@access	public
 	*/
 	public function search_reference(){
-		$data["title"] = "Home - ICS Library System";
+		$data["title"] = "Search - ICS Library System";
 		$keyword = $this->input->get('keyword');
 
 		$config['per_page'] = 10;
@@ -28,6 +44,7 @@ class Home extends CI_Controller{
 		$config['page_query_string'] = TRUE;
 		$config['next_link'] = 'Next';
 		$config['prev_link'] = 'Previous';
+		$config['display_pages'] = FALSE;
 
 		if($keyword==null){
 			redirect("home");
@@ -45,7 +62,7 @@ class Home extends CI_Controller{
 				$config['total_rows'] = $temp->num_rows();//set the total number of rows
 				$this->pagination->initialize($config);
 
-				$this->load->view('cart_view',$data);
+				$data['totalrefmat'] = $temp->num_rows();
 				$this->load->view('search_results_view', $data);
 			}
 			else{
@@ -58,13 +75,13 @@ class Home extends CI_Controller{
 					$temp = $this->user_model->search_reference_material_token2($keyword);
 					$config['total_rows'] = $temp->num_rows();
 					$this->pagination->initialize($config);
-					$this->load->view('cart_view',$data);
+
+					$data['totalrefmat'] = $temp->num_rows();
 					$this->load->view('search_results_view', $data);
 				}
 				else{
 					//test case only
 					$this->load->view('no_materials_view',$data);
-					
 				}
 			}
 			
@@ -73,7 +90,8 @@ class Home extends CI_Controller{
 	}
 
 	/**
-	* Function displays all information of the book
+	*	Function displays all information of the book
+	*	@access	public
 	*/
 	public function view_reference(){
 		$data['title'] = "Book - ICS Library System";
@@ -87,22 +105,19 @@ class Home extends CI_Controller{
 
 	
 	/**
-	*	function calls the model function responsible for retrieving data
+	* Function calls the model function responsible for retrieving data; it processes those
+	* checkboxes that has been ticked
+	*	@access	public
 	*/
-	public function advanced_view_reference(){
-		$data["title"] = "Home - ICS Library System";
-
-		$booktitle="";
-		$bookauthor="";
-		$bookyear="";
+	public function advanced_search_reference(){
+		$data["title"] = "Advanced Search - ICS Library System";
 
 		$temparray = array();//for keywords
 		$temparrayvalues = array();//for the values
 
 		$query = "";//for query
-
-		if(in_array("title", $_POST['projection'])){
-			$keyword_title = $this->input->post('title');
+		if(in_array("title", $_GET['projection'])){
+			$keyword_title = $this->input->get('title');
 			if($keyword_title==null){
 				echo "please insert title <br />";
 				return;
@@ -113,8 +128,8 @@ class Home extends CI_Controller{
 			array_push($temparrayvalues,$keyword_title);
 		}
 		
-		if(in_array("author", $_POST['projection'])){
-			$keyword_author = $this->input->post('author');
+		if(in_array("author", $_GET['projection'])){
+			$keyword_author = $this->input->get('author');
 			if($keyword_author==null){
 				echo "please insert name of the author <br />";
 				return;
@@ -130,8 +145,8 @@ class Home extends CI_Controller{
 			array_push($temparrayvalues,$keyword_author);
 		}
 
-		if(in_array("year_published", $_POST['projection'])){
-			$keyword_year_published = $this->input->post('year_published');
+		if(in_array("year_published", $_GET['projection'])){
+			$keyword_year_published = $this->input->get('year_published');
 			if($keyword_year_published ==null){
 				echo "please insert the year published <br />";
 				return;
@@ -147,8 +162,8 @@ class Home extends CI_Controller{
 			array_push($temparrayvalues,$keyword_year_published);
 		}
 		
-		if(in_array("publisher", $_POST['projection'])){
-			$keyword_publisher = $this->input->post('publisher');
+		if(in_array("publisher", $_GET['projection'])){
+			$keyword_publisher = $this->input->get('publisher');
 			if($keyword_publisher==null){
 				echo "please insert the publisher <br />";
 				return;
@@ -164,8 +179,8 @@ class Home extends CI_Controller{
 			array_push($temparrayvalues,$keyword_publisher);
 		}
 
-		if(in_array('course_code',$_POST['projection'])){
-	    	$keyword_course_code = $this->input->post('course_code');
+		if(in_array('course_code',$_GET['projection'])){
+	    	$keyword_course_code = $this->input->get('course_code');
 	    	if($keyword_course_code==null){
 				echo "please insert the course code <br />";
 				return;
@@ -180,23 +195,50 @@ class Home extends CI_Controller{
 			array_push($temparray,'course_code');
 			array_push($temparrayvalues,$keyword_course_code);
 		}
+		$sort="order by title asc";
+
+		if(isset($_GET['sort'])){
+			if($_GET['sort'] == 'sortalpha'){
+				$sort = "order by title asc";
+			}
+			elseif ($_GET['sort'] == 'sortbeta') {
+				$sort = "order by title desc";
+			}
+			elseif ($_GET['sort'] == 'sortyear') {
+				$sort = "order by publication_year desc";
+			}
+			else{
+				$sort = "order by author asc";
+			}
+		}
 
 
-		/*$config['per_page'] = 10;
-		$config['base_url'] = base_url()."index.php/home/advanced_view_reference?keyword={$_GET['keyword']}";
+		$q1 = $temparray[array_search('title', $temparray)];
+		$q2 = $temparray[array_search('author', $temparray)];
+		$q3 = $temparray[array_search('year_published', $temparray)];
+		$q4 = $temparray[array_search('publisher', $temparray)];
+		$q5 = $temparray[array_search('course_code', $temparray)];
+		if(!isset($_GET['per_page']))
+			$_GET['per_page'] = 0;
+
+		$data['temparray'] = $temparray;
+		$data['temparrayvalues'] = $temparrayvalues;
+		$config['per_page'] = 10;
+		$config['base_url'] = base_url()."index.php/home/advanced_search_reference?projection%5B%5D={$q1}&title={$_GET['title']}&projection%5B%5D={$q2}&author={$_GET['author']}&projection%5B%5D={$q3}&year_published={$_GET['year_published']}&projection%5B%5D={$q4}&publisher={$_GET['publisher']}&projection%5D%5B={$q5}&course_code={$_GET['course_code']}";
 		$config['num_links']= 10;
 		$config['page_query_string'] = TRUE;
 		$config['next_link'] = 'Next';
 		$config['prev_link'] = 'Previous';
-*/
-		$realquery = "Select * from reference_material where {$query} order by title asc";
-		$result = $this->user_model->advanced_search($realquery);
+		$config['display_pages'] = FALSE;
+		$offset = (isset($_GET['per_page'])) ? $_GET['per_page'] : 0 ;
+		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit $offset,{$config['per_page']}");
+		$result2 = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort}");
 		if($result->num_rows() > 0){
 			$data['rows'] = $result->result();
 
-			//$config['total_rows'] = $result->num_rows();//set the total number of rows
-			//$this->pagination->initialize($config);
-
+			$config['total_rows'] = $result2->num_rows();//set the total number of rows
+			$this->pagination->initialize($config);
+			$data['totalrefmat'] = $result2->num_rows();
 			$this->load->view('search_results_view', $data);
 		}
 
@@ -204,6 +246,10 @@ class Home extends CI_Controller{
 	}
 
 	
-	
+	public function load_advanced_search(){
+		$data['title'] = "Advanced Search - ICS Library System";
+
+		$this->load->view('advanced_search_view',$data);
+	}
 }
 ?>

@@ -7,7 +7,7 @@
 </head>
 <body>
 	<?php echo form_open('report_controller/view_report') ;?>
-		<select multiple name="print_by">
+		<select name="print_by">
 			<option value="daily">Daily Report</option>
 			<option value="weekly">Weekly Report</option>
 			<option value="monthly">Monthly Report</option>

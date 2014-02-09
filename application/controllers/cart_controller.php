@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Cart class
+ *
+ * @author	Jose Carlo Husmillo, Alyssa Bianca Cos
+ * @version 1.0
+ */
 class Cart_Controller extends CI_Controller{
 
 	public function Home(){
@@ -9,6 +14,7 @@ class Cart_Controller extends CI_Controller{
 
 	/**
 	* Function adds the reference material to the cart
+	* @access public
 	*/
 	public function add_to_cart(){
 		
@@ -40,6 +46,7 @@ class Cart_Controller extends CI_Controller{
 
 	/**
 	* Function to view the cart on a different page
+	* @access public
 	*/
 	public function view_cart(){
 		$data['title'] = "Cart - ICS Library System";
@@ -48,6 +55,7 @@ class Cart_Controller extends CI_Controller{
 
 	/**
 	* Function to empty the contents of the cart
+	* @access public
 	*/
 	public function empty_cart(){
 		$this->cart->destroy();
@@ -56,6 +64,7 @@ class Cart_Controller extends CI_Controller{
 
 	/**
 	* Function to delete the selected items on the cart
+	* @access public
 	*/
 	public function remove_selected(){
 		$total = $this->cart->total();
@@ -64,9 +73,7 @@ class Cart_Controller extends CI_Controller{
 			$strname = "cart".$i;
 			$bookid = $this->input->post($strname);
 
-			
-			//var_dump($bookid);
-			if($bookid != null){
+			if($bookid != null){	//if $bookid is set (checked), delete
 				$data = array(  
 		              'rowid' => $bookid, 
 		              'qty'   => 0 

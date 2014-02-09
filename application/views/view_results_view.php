@@ -12,7 +12,7 @@
 			echo '<p> Course Code: '.strtoupper($r->course_code).'</p>';
 			echo '<p> Total Available:  '.$r->total_available.'/'.$r->total_stock.'</p>';
 			echo '<p> Times Borrowed: '.$r->times_borrowed.'</p>';
-			echo anchor('home/advanced_search_reference', 'Advanced Search >>');
+			echo anchor('home/load_advanced_search', 'Advanced Search >>');
 			echo ' ';
 			echo anchor('cart_controller/add_to_cart/'.$r->id, 'Add to Cart');	
 		}
