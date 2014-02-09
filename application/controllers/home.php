@@ -37,7 +37,11 @@ class Home extends CI_Controller{
 	public function search_reference(){
 		$data["title"] = "Search - ICS Library System";
 		$keyword = $this->input->get('keyword');
-
+		$keyword = ltrim($keyword);
+		$keyword = rtrim($keyword);
+		//replace special characters with nothing
+		$order  = array('\\','\/','@','!','#','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
+		$keyword = str_replace($order, '', $keyword);
 		$config['per_page'] = 10;
 		$config['base_url'] = base_url("index.php/home/search_reference?keyword={$_GET['keyword']}");
 		$config['num_links']= 10;
@@ -119,10 +123,15 @@ class Home extends CI_Controller{
 		if(in_array("title", $_GET['projection'])){
 			$keyword_title = $this->input->get('title');
 			if($keyword_title==null){
-				echo "please insert title <br />";
-				return;
+				redirect('home');
 			}
 
+			
+			$keyword_title = ltrim($keyword_title);
+			$keyword_title = rtrim($keyword_title);
+			//replace special characters with nothing
+			$order  = array('\\','\/','@','!','#','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
+			$keyword_title = str_replace($order, '', $keyword_title);
 			$query .= "title like '%$keyword_title%'";
 			array_push($temparray,'title');
 			array_push($temparrayvalues,$keyword_title);
@@ -131,8 +140,7 @@ class Home extends CI_Controller{
 		if(in_array("author", $_GET['projection'])){
 			$keyword_author = $this->input->get('author');
 			if($keyword_author==null){
-				echo "please insert name of the author <br />";
-				return;
+				redirect('home');
 			}
 
 			if ( in_array('title',$temparray) ) {
@@ -230,8 +238,8 @@ class Home extends CI_Controller{
 		$config['next_link'] = 'Next';
 		$config['prev_link'] = 'Previous';
 		$config['display_pages'] = FALSE;
-		$offset = (isset($_GET['per_page'])) ? $_GET['per_page'] : 0 ;
-		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit $offset,{$config['per_page']}");
+		
+		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit 0,{$config['per_page']}");
 		$result2 = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort}");
 		if($result->num_rows() > 0){
 			$data['rows'] = $result->result();

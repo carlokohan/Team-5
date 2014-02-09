@@ -55,7 +55,10 @@
 			if($offset > $totalrefmat){
 				$offset = ($totalrefmat%10)+10;
 			}
-			echo ($current+1).' to '.$offset.' of '.$totalrefmat.' reference materials found.';
+			if ($totalrefmat < 10) {
+				$offset = $totalrefmat;
+			}
+			echo 'Result '.($current+1).' to '.$offset.' of '.$totalrefmat.' reference materials found.';
 			?>
 		</p>
 

@@ -54,7 +54,7 @@ class User_model extends CI_Model{
 	*	@return rows from db || null
 	*/
 	public function search_reference_material_token2($keywords){
-		$keyword_tokens = preg_split("/[\s,]+/", $keywords);
+		$keyword_tokens = preg_split("/[\s,!@#$\[\]\*\(\)\^<>\?\+\_\={}]+/", $keywords);
 
 		$sql = "SELECT * FROM reference_material WHERE title LIKE'%";
 		$sql .= implode("%' OR title LIKE '%", $keyword_tokens) . "'";
