@@ -92,7 +92,32 @@ class User_model extends CI_Model{
 		return $this->db->query($query);
 	}
 
-	
+	/**
+	*	Function gets the exact transactions based from type of report (Daily, Weekly or Monthly)
+	*	@param $type (string)
+	*	@return rows from db || null
+	*/
+	public function get_data($type){
+		$result = $this->db->query("Select DAYOFWEEK(CURDATE())");
+		//var_dump($result);
+		$day = (int)$result;
+
+		/*returns rows of data from selected columns of the transaction log based on current date*/
+		if (strcmp($type,'daily')==0) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
+			return $this->db->query("Select * from transactions where date_borrowed like CURDATE()");
+		} 
+		/*returns rows of data from selected columns of the transasction log based on the whole week
+		* can only be accessed on Fridays
+		*/
+		else if (strcmp($type,'weekly')==0 && $day==6) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
+			return $this->db->query("Select * from transactions where DATE_SUB(CURDATE(), INTERVAL 4 DAY)<=date_borrowed");	
+		} 
+		/*returns rows of data from selected columns of the transaction log based on the whole month*/
+		else if (strcmp($type,'monthly')==0) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
+			return $this->db->query("Select * from transactions where MONTHNAME(date_borrowed) like MONTHNAME(CURDATE())");
+		}
+	}
+
 	public function edit_profile(){}
 }
 

@@ -30,7 +30,7 @@ class Report_Controller extends CI_Controller{
 
 	public function view_report(){
 		$data['title'] = "Report - ICS Library System";
-		$this->load->library('fpdf/fpdf')
+		$this->load->library('fpdf/fpdf');
 		$this->load->model('user_model');
 		$type = $_POST['print_by'];
 		$result = $this->user_model->get_data($type);
