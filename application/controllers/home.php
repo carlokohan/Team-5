@@ -235,8 +235,9 @@ class Home extends CI_Controller{
 		$q3 = $temparray[array_search('year_published', $temparray)];
 		$q4 = $temparray[array_search('publisher', $temparray)];
 		$q5 = $temparray[array_search('course_code', $temparray)];
-		if(!isset($_GET['per_page']))
+		if(!isset($_GET['per_page']) || $_GET['per_page'] == null)
 			$_GET['per_page'] = 0;
+
 
 		$data['temparray'] = $temparray;
 		$data['temparrayvalues'] = $temparrayvalues;
@@ -260,6 +261,7 @@ class Home extends CI_Controller{
 		}
 		else{
 			var_dump($keyword_title);
+			echo 'under construction';
 		}
 
 	}
