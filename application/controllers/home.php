@@ -248,7 +248,7 @@ class Home extends CI_Controller{
 		$config['prev_link'] = 'Previous';
 		$config['display_pages'] = FALSE;
 		
-		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit 0,{$config['per_page']}");
+		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit {$_GET['per_page']},{$config['per_page']}");
 		$result2 = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort}");
 		if($result->num_rows() > 0){
 			$data['rows'] = $result->result();
