@@ -23,7 +23,7 @@ class Cart_Controller extends CI_Controller{
 		$data['title'] = "Cart - ICS Library System";
 
 		$bookid = $this->uri->segment(3);
-		$result = $this->user_model->view_reference_material($bookid);
+		$result = $this->user_model->view_reference_material($bookid);//we reused the function in which we view the details of the book
 		foreach ($result->result() as $row){
 		    $bookyear = $row->publication_year;
 		    $booktitle = $row->title;
@@ -50,6 +50,7 @@ class Cart_Controller extends CI_Controller{
 	*/
 	public function view_cart(){
 		$data['title'] = "Cart - ICS Library System";
+		//var_dump($_SERVER['REQUEST_URI']);
 		$this->load->view('cart_view',$data);
 	}
 
@@ -76,7 +77,7 @@ class Cart_Controller extends CI_Controller{
 			if($bookid != null){	//if $bookid is set (checked), delete
 				$data = array(  
 		              'rowid' => $bookid, 
-		              'qty'   => 0 
+		              'qty'   => 0 //setting qty to zero would delete it from cart
 		           );  
 				
 				$this->cart->update($data); 

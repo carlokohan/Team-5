@@ -45,11 +45,14 @@ class Email extends CI_Controller{
 
 		if($this->email->send()){//if sent successfully
 			echo "your message was sent!";
+			$this->output->enable_profiler(TRUE);
 		}
 		else{
 			show_error($this->email->print_debugger());
 		}
 	}
 
-	
+/**
+* additional: admin wants to email all users,
+*/	
 }
