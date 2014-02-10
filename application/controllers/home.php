@@ -40,7 +40,7 @@ class Home extends CI_Controller{
 		$keyword = ltrim($keyword);
 		$keyword = rtrim($keyword);
 		//replace special characters with nothing
-		$order  = array('\\','\/','@','!','#','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
+		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
 		$keyword = str_replace($order, '', $keyword);
 		$config['per_page'] = 10;
 		$config['base_url'] = base_url("index.php/home/search_reference?keyword={$_GET['keyword']}");
@@ -118,7 +118,8 @@ class Home extends CI_Controller{
 
 		$temparray = array();//for keywords
 		$temparrayvalues = array();//for the values
-
+		//replace special characters with nothing
+		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
 		$query = "";//for query
 		if(in_array("title", $_GET['projection'])){
 			$keyword_title = $this->input->get('title');
@@ -126,11 +127,9 @@ class Home extends CI_Controller{
 				redirect('home');
 			}
 
-			
+			//trim whitespaces
 			$keyword_title = ltrim($keyword_title);
 			$keyword_title = rtrim($keyword_title);
-			//replace special characters with nothing
-			$order  = array('\\','\/','@','!','#','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
 			$keyword_title = str_replace($order, '', $keyword_title);
 			$query .= "title like '%$keyword_title%'";
 			array_push($temparray,'title');
@@ -143,6 +142,10 @@ class Home extends CI_Controller{
 				redirect('home');
 			}
 
+
+			$keyword_author = ltrim($keyword_author);
+			$keyword_author = rtrim($keyword_author);
+			$keyword_author = str_replace($order, '', $keyword_author);
 			if ( in_array('title',$temparray) ) {
 				$query .= " or author like '%$keyword_author%'";
 			}
@@ -156,9 +159,11 @@ class Home extends CI_Controller{
 		if(in_array("year_published", $_GET['projection'])){
 			$keyword_year_published = $this->input->get('year_published');
 			if($keyword_year_published ==null){
-				echo "please insert the year published <br />";
-				return;
+				redirect('home');
 			}
+			$keyword_year_published = ltrim($keyword_year_published);
+			$keyword_year_published = rtrim($keyword_year_published);
+			$keyword_year_published = str_replace($order, '', $keyword_year_published);
 
 			if ( in_array('title',$temparray) || in_array('author',$temparray)) {
 				$query .= " or publication_year like '%$keyword_year_published%'";
@@ -173,10 +178,12 @@ class Home extends CI_Controller{
 		if(in_array("publisher", $_GET['projection'])){
 			$keyword_publisher = $this->input->get('publisher');
 			if($keyword_publisher==null){
-				echo "please insert the publisher <br />";
-				return;
+				redirect('home');
 			}
 			
+			$keyword_publisher = ltrim($keyword_publisher);
+			$keyword_publisher = rtrim($keyword_publisher);
+			$keyword_publisher = str_replace($order, '', $keyword_publisher);
 			if ( in_array('title',$temparray) || in_array('author',$temparray) || in_array('year_published', $temparray)) {
 				$query .= " or publisher like '%$keyword_publisher%'";
 			}
@@ -190,10 +197,12 @@ class Home extends CI_Controller{
 		if(in_array('course_code',$_GET['projection'])){
 	    	$keyword_course_code = $this->input->get('course_code');
 	    	if($keyword_course_code==null){
-				echo "please insert the course code <br />";
-				return;
+	    		redirect('home');
 			}
 
+			$keyword_course_code = ltrim($keyword_course_code);
+			$keyword_course_code = rtrim($keyword_course_code);
+			$keyword_course_code = str_replace($order, '', $keyword_course_code);
 			if ( in_array('title',$temparray) || in_array('author',$temparray) || in_array('year_published', $temparray) || in_array('publisher', $temparray)) {
 				$query .= " or course_code like '%$keyword_course_code%'";
 			}
@@ -220,7 +229,7 @@ class Home extends CI_Controller{
 			}
 		}
 
-
+		//we need this for the pagination uri
 		$q1 = $temparray[array_search('title', $temparray)];
 		$q2 = $temparray[array_search('author', $temparray)];
 		$q3 = $temparray[array_search('year_published', $temparray)];
@@ -249,7 +258,9 @@ class Home extends CI_Controller{
 			$data['totalrefmat'] = $result2->num_rows();
 			$this->load->view('search_results_view', $data);
 		}
-
+		else{
+			var_dump($keyword_title);
+		}
 
 	}
 
