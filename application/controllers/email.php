@@ -34,21 +34,24 @@ class Email extends CI_Controller{
 			'charset' => 'utf-8'
 		);
 
+		$date = date('Y-m-d H:m:s');
+		$newdate = strtotime ( '+3 day' , strtotime( $date ));
+		$newdate = date('F j, Y',$newdate);
+
 		$this->load->library("email", $config);//we pass our configuration
 		$this->email->set_newline("\r\n");
 
 		$this->email->from("user.librarian@gmail.com", "ICS Librarian");
 		//sample only
-		$this->email->to("carlohusmillo@yahoo.com");
+		$this->email->to("carlohusmillo@gmail.com");
 		$this->email->subject("Reference Material Reservation");
-		$this->email->message("Deadline bukas!");
+		$this->email->message('Your <b>reservation</b> is due on: <h1>'.$newdate.'</h1>Please be guided.<br/><br/>-Librarian');
 
 		if($this->email->send()){//if sent successfully
 			echo "your message was sent!";
-			$this->output->enable_profiler(TRUE);
 		}
 		else{
-			show_error($this->email->print_debugger());
+			redirect('home');
 		}
 	}
 

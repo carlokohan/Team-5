@@ -98,9 +98,7 @@ class User_model extends CI_Model{
 	*	@return rows from db || null
 	*/
 	public function get_data($type){
-		$result = $this->db->query("Select DAYOFWEEK(CURDATE())");
-		//var_dump($result);
-		$day = (int)$result;
+		$day = date('D');
 
 		/*returns rows of data from selected columns of the transaction log based on current date*/
 		if (strcmp($type,'daily')==0) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
@@ -109,13 +107,22 @@ class User_model extends CI_Model{
 		/*returns rows of data from selected columns of the transasction log based on the whole week
 		* can only be accessed on Fridays
 		*/
-		else if (strcmp($type,'weekly')==0 && $day==6) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
+		else if (strcmp($type,'weekly')==0 && $day=='Fri') {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
 			return $this->db->query("Select * from transactions where DATE_SUB(CURDATE(), INTERVAL 4 DAY)<=date_borrowed");	
 		} 
 		/*returns rows of data from selected columns of the transaction log based on the whole month*/
 		else if (strcmp($type,'monthly')==0) {//reference_material_id, borrower_id, date_waitlisted, date_reserved, date_borrowed, date_returned
 			return $this->db->query("Select * from transactions where MONTHNAME(date_borrowed) like MONTHNAME(CURDATE())");
 		}
+	}
+
+
+	/**
+	*	Function gets the most borrowed reference material
+	*	@return rows from db || null
+	*/
+	public function get_popular(){
+		return $this->db->query("select * from reference_material where times_borrowed = (select max(times_borrowed) from reference_material)");
 	}
 
 	public function edit_profile(){}

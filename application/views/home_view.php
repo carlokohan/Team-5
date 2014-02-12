@@ -1,6 +1,11 @@
 <?=$this->load->view("includes/header")?>
 	<!-- Insert contents here -->
-	<?php //echo form_open('home/search_reference'); 
+	<?php 
+
+$date = date('Y-m-d H:m:s');
+		$newdate = strtotime ( '+3 day' , strtotime( $date ));
+		$newdate = date('F j, Y',$newdate);
+		echo 'Your <b>reservation</b> is due on: <h1>'.$newdate.'</h1>Please be guided.<br/><br/>-Librarian';
 	
 	?>
 	<form action="<?php echo base_url('index.php/home/search_reference'); ?>" method="get" accept-charset="utf-8"  >		
@@ -21,7 +26,7 @@
 					<tr>
 						<td>Category:</td>
 						<td>
-							<select>
+							<select name="reftype">
 								<option value="B">Book</option>
 								<option value="J">Journal</option>
 								<option value="T">Thesis</option>
@@ -30,6 +35,14 @@
 							</select><br/>
 						</td>
 					</tr>	
+					<tr>
+						<td><input type="radio" name="sort" value="sortalpha"checked="true" />Sort from A to Z</td>
+						<td><input type="radio" name="sort" value="sortbeta" />Sort from Z to A</td>
+					</tr>	
+					<tr>
+						<td><input type="radio" name="sort" value="sortyear" />Sort by year</td>
+						<td><input type="radio" name="sort" value="sortauthor" />Sort by author(A-Z)</td>
+					</tr>
 				</table>
 				<input type="submit" value="Advanced Search" />	
 				</form>		

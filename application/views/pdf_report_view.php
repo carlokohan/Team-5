@@ -22,6 +22,10 @@
 		$pdf->Ln();
 	}
 
+	$pdf->SetFont('Arial','',10);
+	foreach($mostBorrowed as $row){
+		$pdf->Cell(0,50,"Most Borrowed: ".$row->title.'.  Times borrowed: '.$row->times_borrowed.'. Course code: '.strtoupper($row->course_code),0,1);
+	}
 	$pdf->Output();
 
 ?>

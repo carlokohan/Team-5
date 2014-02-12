@@ -119,8 +119,8 @@ class Home extends CI_Controller{
 	public function advanced_search_reference(){
 		$data["title"] = "Advanced Search - ICS Library System";
 
-		$temparray = array();//for keywords
-		$temparrayvalues = array();//for the values
+		$tempArray = array();//for keywords
+		$tempArrayValues = array();//for the values
 		//replace special characters with nothing
 		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
 		$query = "";//for query
@@ -129,108 +129,108 @@ class Home extends CI_Controller{
 		the following codes will check if the checkbox is marked
 		*/
 		if(in_array("title", $_GET['projection'])){
-			$keyword_title = $this->input->get('title');
-			if($keyword_title==null){	//didn't type anything
+			$keywordTitle = $this->input->get('title');
+			if($keywordTitle==null){	//didn't type anything
 				redirect('home');
 			}
 
 			//trim whitespaces and special characters
-			$keyword_title = ltrim($keyword_title);
-			$keyword_title = rtrim($keyword_title);
-			$keyword_title = str_replace($order, '', $keyword_title);
+			$keywordTitle = ltrim($keywordTitle);
+			$keywordTitle = rtrim($keywordTitle);
+			$keywordTitle = str_replace($order, '', $keywordTitle);
 			//we will build up the search query using string concatenation
-			$query .= "title like '%$keyword_title%'";
-			array_push($temparray,'title');	//push it to the array
-			array_push($temparrayvalues,$keyword_title);
+			$query .= "title like '%$keywordTitle%'";
+			array_push($tempArray,'title');	//push it to the array
+			array_push($tempArrayValues,$keywordTitle);
 		}
 		//if author is checked
 		if(in_array("author", $_GET['projection'])){
-			$keyword_author = $this->input->get('author');
-			if($keyword_author==null){
+			$keywordAuthor = $this->input->get('author');
+			if($keywordAuthor==null){
 				redirect('home');
 			}
 
 
 			//trim whitespaces and special characters
-			$keyword_author = ltrim($keyword_author);
-			$keyword_author = rtrim($keyword_author);
-			$keyword_author = str_replace($order, '', $keyword_author);
-			if ( in_array('title',$temparray) ) {
+			$keywordAuthor = ltrim($keywordAuthor);
+			$keywordAuthor = rtrim($keywordAuthor);
+			$keywordAuthor = str_replace($order, '', $keywordAuthor);
+			if ( in_array('title',$tempArray) ) {
 				//^ we check if previous checkboxes were marked
-				$query .= " or author like '%$keyword_author%'";
+				$query .= " or author like '%$keywordAuthor%'";
 			}
 			else{
 				//no other checkboxes were marked
-				$query .= " author like '%$keyword_author%'";
+				$query .= " author like '%$keywordAuthor%'";
 			}
-			array_push($temparray,'author');
-			array_push($temparrayvalues,$keyword_author);
+			array_push($tempArray,'author');
+			array_push($tempArrayValues,$keywordAuthor);
 		}
 
 		//if year_published is checked
 		if(in_array("year_published", $_GET['projection'])){
-			$keyword_year_published = $this->input->get('year_published');
-			if($keyword_year_published ==null){
+			$keywordYearPublished = $this->input->get('year_published');
+			if($keywordYearPublished ==null){
 				redirect('home');
 			}
-			$keyword_year_published = ltrim($keyword_year_published);
-			$keyword_year_published = rtrim($keyword_year_published);
-			$keyword_year_published = str_replace($order, '', $keyword_year_published);
+			$keywordYearPublished = ltrim($keywordYearPublished);
+			$keywordYearPublished = rtrim($keywordYearPublished);
+			$keywordYearPublished = str_replace($order, '', $keywordYearPublished);
 
-			if ( in_array('title',$temparray) || in_array('author',$temparray)) {
+			if ( in_array('title',$tempArray) || in_array('author',$tempArray)) {
 				//^ we check if previous checkboxes were marked
-				$query .= " or publication_year like '%$keyword_year_published%'";
+				$query .= " or publication_year like '%$keywordYearPublished%'";
 			}
 			else{
 				//no other checkboxes were marked
-				$query .= " publication_year like '%$keyword_year_published%'";
+				$query .= " publication_year like '%$keywordYearPublished%'";
 			}
-			array_push($temparray,'year_published');
-			array_push($temparrayvalues,$keyword_year_published);
+			array_push($tempArray,'year_published');
+			array_push($tempArrayValues,$keywordYearPublished);
 		}
 		
 		//if publisher is checked
 		if(in_array("publisher", $_GET['projection'])){
-			$keyword_publisher = $this->input->get('publisher');
-			if($keyword_publisher==null){
+			$keywordPublisher = $this->input->get('publisher');
+			if($keywordPublisher==null){
 				redirect('home');
 			}
 			
-			$keyword_publisher = ltrim($keyword_publisher);
-			$keyword_publisher = rtrim($keyword_publisher);
-			$keyword_publisher = str_replace($order, '', $keyword_publisher);
-			if ( in_array('title',$temparray) || in_array('author',$temparray) || in_array('year_published', $temparray)) {
+			$keywordPublisher = ltrim($keywordPublisher);
+			$keywordPublisher = rtrim($keywordPublisher);
+			$keywordPublisher = str_replace($order, '', $keywordPublisher);
+			if ( in_array('title',$tempArray) || in_array('author',$tempArray) || in_array('year_published', $tempArray)) {
 				//^ we check if previous checkboxes were marked
-				$query .= " or publisher like '%$keyword_publisher%'";
+				$query .= " or publisher like '%$keywordPublisher%'";
 			}
 			else{
 				//no other checkboxes were marked
-				$query .= " publisher like '%$keyword_publisher%'";
+				$query .= " publisher like '%$keywordPublisher%'";
 			}
-			array_push($temparray,'publisher');
-			array_push($temparrayvalues,$keyword_publisher);
+			array_push($tempArray,'publisher');
+			array_push($tempArrayValues,$keywordPublisher);
 		}
 
 		//if course_code is checked
 		if(in_array('course_code',$_GET['projection'])){
-	    	$keyword_course_code = $this->input->get('course_code');
-	    	if($keyword_course_code==null){
+	    	$keywordCourseCode = $this->input->get('course_code');
+	    	if($keywordCourseCode==null){
 	    		redirect('home');
 			}
 
-			$keyword_course_code = ltrim($keyword_course_code);
-			$keyword_course_code = rtrim($keyword_course_code);
-			$keyword_course_code = str_replace($order, '', $keyword_course_code);
-			if ( in_array('title',$temparray) || in_array('author',$temparray) || in_array('year_published', $temparray) || in_array('publisher', $temparray)) {
+			$keywordCourseCode = ltrim($keywordCourseCode);
+			$keywordCourseCode = rtrim($keywordCourseCode);
+			$keywordCourseCode = str_replace($order, '', $keywordCourseCode);
+			if ( in_array('title',$tempArray) || in_array('author',$tempArray) || in_array('year_published', $tempArray) || in_array('publisher', $tempArray)) {
 				//^ we check if previous checkboxes were marked
-				$query .= " or course_code like '%$keyword_course_code%'";
+				$query .= " or course_code like '%$keywordCourseCode%'";
 			}
 			else{
 				//no other checkboxes were marked
-				$query .= " course_code like '%$keyword_course_code%'";
+				$query .= " course_code like '%$keywordCourseCode%'";
 			}
-			array_push($temparray,'course_code');
-			array_push($temparrayvalues,$keyword_course_code);
+			array_push($tempArray,'course_code');
+			array_push($tempArrayValues,$keywordCourseCode);
 		}
 		//the default sort is by title ascending
 		$sort="order by title asc";
@@ -250,19 +250,22 @@ class Home extends CI_Controller{
 				$sort = "order by author asc";
 			}
 		}
+//------------modify
+		$reftype = $this->input->get('reftype');
+		//var_dump($reftype);
 
 		//we need this for the pagination uri
-		$q1 = $temparray[array_search('title', $temparray)];
-		$q2 = $temparray[array_search('author', $temparray)];
-		$q3 = $temparray[array_search('year_published', $temparray)];
-		$q4 = $temparray[array_search('publisher', $temparray)];
-		$q5 = $temparray[array_search('course_code', $temparray)];
+		$q1 = $tempArray[array_search('title', $tempArray)];
+		$q2 = $tempArray[array_search('author', $tempArray)];
+		$q3 = $tempArray[array_search('year_published', $tempArray)];
+		$q4 = $tempArray[array_search('publisher', $tempArray)];
+		$q5 = $tempArray[array_search('course_code', $tempArray)];
 		if(!isset($_GET['per_page']) || $_GET['per_page'] == null)
 			$_GET['per_page'] = 0;
 
 
-		$data['temparray'] = $temparray;
-		$data['temparrayvalues'] = $temparrayvalues;
+		$data['temparray'] = $tempArray;
+		$data['temparrayvalues'] = $tempArrayValues;
 		$config['per_page'] = 10;
 		$config['base_url'] = base_url("index.php/home/advanced_search_reference?projection%5B%5D={$q1}&title={$_GET['title']}&projection%5B%5D={$q2}&author={$_GET['author']}&projection%5B%5D={$q3}&year_published={$_GET['year_published']}&projection%5B%5D={$q4}&publisher={$_GET['publisher']}&projection%5D%5B={$q5}&course_code={$_GET['course_code']}");
 		$config['num_links']= 10;
@@ -285,7 +288,10 @@ class Home extends CI_Controller{
 			$this->load->view('no_materials_view',$data);
 
 			//we previously stored in the array the values of those that are checked;
-			//$temparrayvalues[array_search('title')]
+			//$tempArrayValues[array_search('title')]
+			/*
+SELECT * FROM `reference_material` WHERE title like '%a%' or author like '%carlo%' IN (Select * from `reference_material` where category = 'B')
+			*/
 
 		}
 
@@ -300,7 +306,7 @@ class Home extends CI_Controller{
 
 		$this->load->view('advanced_search_view',$data);
 
-		
+
 	}
 }
 ?>

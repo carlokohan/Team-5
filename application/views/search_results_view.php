@@ -10,7 +10,9 @@
 			<div class = "search-hidden">
 				<form action="<?php echo base_url('index.php/home/advanced_search_reference'); ?>" method="get" accept-charset="utf-8">
 				<table>
-					<tr><td><input value="title" type="checkbox" name="projection[]" checked="true">Title:</td><td><input type="text" name="title" size = "30" value="<?php if(isset($temparray) && in_array('title',$temparray)) echo $temparrayvalues[array_search('title', $temparray)]?>"><br/></td></tr>
+					<tr>
+						<td><input value="title" type="checkbox" name="projection[]" checked="true">Title:</td>
+						<td><input type="text" name="title" size = "30" value="<?php if(isset($temparray) && in_array('title',$temparray)) echo $temparrayvalues[array_search('title', $temparray)]?>"><br/></td></tr>
 					<tr><td><input value="author" type="checkbox" name="projection[]">Author:</td><td><input type="text" name="author" size = "30" value="<?php if(isset($temparray) && in_array('author',$temparray)) echo $temparrayvalues[array_search('author', $temparray)]?>"><br/></td></tr>
 					<tr><td><input value="year_published" type="checkbox" name="projection[]">Year Published:</td><td><input type="text" name="year_published" size = "30" value="<?php if(isset($temparray) && in_array('year_published',$temparray)) echo $temparrayvalues[array_search('year_published', $temparray)]?>"><br/></td></tr>
 					<tr><td><input value="publisher" type="checkbox" name="projection[]">Publisher:</td><td><input type="text" name="publisher" size = "30" value="<?php if(isset($temparray) && in_array('publisher',$temparray)) echo $temparrayvalues[array_search('publisher', $temparray)]?>"><br/></td></tr>
@@ -18,7 +20,7 @@
 					<tr>
 						<td>Category:</td>
 						<td>
-							<select>
+							<select name="reftype">
 								<option value="B">Book</option>
 								<option value="J">Journal</option>
 								<option value="T">Thesis</option>
@@ -46,6 +48,7 @@
 		echo '  '; 
 		echo '  ';
 		echo anchor('cart_controller/view_cart', 'View Cart');
+		//echo anchor($_SERVER['REQUEST_URI'], ' << BACK');
 		?>
 		<br/>
 		<p>
@@ -53,7 +56,7 @@
 			$current = $_GET['per_page'];
 			$offset = $current + 10;
 			if($offset > $totalrefmat){
-				$offset = ($totalrefmat%10)+10;
+				$offset = ($totalrefmat%10)+$current;
 			}
 			if ($totalrefmat < 10) {
 				$offset = $totalrefmat;
