@@ -2,7 +2,7 @@
 /**
  * Main Controller class
  *
- * @author	Jose Carlo Husmillo, Khemberly Cumal
+ * @author	Jose Carlo Husmillo, Khemberly E. Cumal
  * @version 1.0
  */
 class Home extends CI_Controller{
