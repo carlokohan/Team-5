@@ -1,5 +1,5 @@
 <?php
-		
+	/*	
 	function Header(){
 		$pdf->Image('ics_logo.jpg',10,6,30);
 		$pdf->SetFont('Arial', 'B',15);
@@ -7,7 +7,7 @@
 		$pdf->Cell(30,10,'OnLib: Institute of Computer Science Library Log',1,0,'C');
 		$pdf->Ln(20);
 	}
-	
+	*/
 	$pdf = new FPDF();
 	
 	//column headers
