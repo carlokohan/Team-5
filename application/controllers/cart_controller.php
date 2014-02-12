@@ -31,8 +31,8 @@ class Cart_Controller extends CI_Controller{
 		    $bookcode = strtoupper($row->course_code);
 		}
 
-		$qart = array(
-               'id'      => $bookid,
+		$qart = array(				//these details are important for the cart system
+               'id'      => $bookid,//we won't be printing these details anyway
                'qty'     => 1,
                'price'   => 1.00,
                'name'    => 'Book',
