@@ -1,8 +1,14 @@
 <?php
 		
+	function Header(){
+		$pdf->Image('ics_logo.jpg',10,6,30);
+		$pdf->SetFont('Arial', 'B',15);
+		$pdf->Cell(70);
+		$pdf->Cell(30,10,'OnLib: Institute of Computer Science Library Log',1,0,'C');
+		$pdf->Ln(20);
+	}
+	
 	$pdf = new FPDF();
-	$title = 'OnLib: ICS Library Online System Log';
-	$pdf->SetTitle($title);
 	
 	//column headers
 	$header = array('Ref. ID', 'Borrower ID', 'Date Waitlisted', 'Date Reserved', 'Date Borrowed', 'Date Returned');
