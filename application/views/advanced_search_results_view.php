@@ -2,22 +2,22 @@
 
 	<?php 
 	if($rows != null){
-		foreach ($rows as $r) {
-			echo '<h5><p>'.$r->title.'</h5>';
-			echo '<p> Author: '.$r->author.'.';
-			echo '<p> Year of Publication: '.$r->publication_year.'</p>';
-			echo '<p> Description: '.$r->description.'</p>';
-			echo '<p> Publisher: '.$r->publisher.'</p>';
-			echo '<p> Course Code: '.strtoupper($r->course_code).'</p>';
-			echo '<p> Total Available:  '.$r->total_available.'/'.$r->total_stock.'</p>';
-			echo '<p> Times Borrowed: '.$r->times_borrowed.'</p>';
-			echo anchor('home', '<< Back');
-			echo " <a href='#' > Add to cart</a>  ";	
-		}
-	}
-	else{
-		echo '<p>No reference material found for that keyword.</p>';
-	}
 	?>
+		<?php foreach ($rows as $r): ?>
+			<h5><p>Title: <?php echo $r->title; ?></p></h5>
+			<h5><p>Author: <?php echo $r->author; ?></p></h5>
+			<h5><p>Year of Publication: <?php echo $r->publication_year; ?></p></h5>
+			<h5><p>Description: <?php echo $r->description; ?></p></h5>
+			<h5><p>Publisher: <?php echo $r->publisher; ?></p></h5>
+			<h5><p>Course Code: <?php echo strtoupper($r->course_code); ?></p></h5>
+			<h5><p>Total Available: <?php echo $r->total_available.'/'.$r->total_stock; ?></p></h5>
+			<h5><p>Times Borrowed: <?php echo $r->times_borrowed; ?></p></h5>
+
+			<?php echo anchor('home', '<< Back'); ?>
+			<?php echo " <a href='#' > Add to cart</a>"; ?>	
+			<?php endforeach; ?>
+	<?php else:?>
+		<p>No reference material found for that keyword.</p>
+	<?php endif; ?>
 
 <?=$this->load->view("includes/footer")?>

@@ -2,7 +2,7 @@
 /**
  * Main Controller class
  *
- * @author	Jose Carlo Husmillo, Khemberly Cumal
+ * @author	Jose Carlo Husmillo, Khemberly E. Cumal
  * @version 1.0
  */
 class Home extends CI_Controller{
@@ -323,6 +323,12 @@ SELECT * FROM `reference_material` WHERE title like '%a%' or author like '%carlo
 	}
 
 
+<<<<<<< HEAD
 	
 }//end of controller class
 ?>
+=======
+	}
+}
+?>
+>>>>>>> 34043240dd6e0e434b1df41c6bfa892cd8cefe0e

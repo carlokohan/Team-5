@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 class PDF extends FPDF{
 	function Header(){
 		// Logo
@@ -15,6 +16,19 @@ class PDF extends FPDF{
 }
 	$pdf = new PDF();
 	$pdf->Header();	
+=======
+	/*	
+	function Header(){
+		$pdf->Image('ics_logo.jpg',10,6,30);
+		$pdf->SetFont('Arial', 'B',15);
+		$pdf->Cell(70);
+		$pdf->Cell(30,10,'OnLib: Institute of Computer Science Library Log',1,0,'C');
+		$pdf->Ln(20);
+	}
+	*/
+	$pdf = new FPDF();
+	
+>>>>>>> 34043240dd6e0e434b1df41c6bfa892cd8cefe0e
 	//column headers
 	$header = array('Ref. ID', 'Borrower ID', 'Date Waitlisted', 'Date Reserved', 'Date Borrowed', 'Date Returned');
 	$pdf->AddPage();
