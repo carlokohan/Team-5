@@ -232,6 +232,9 @@ class Home extends CI_Controller{
 			array_push($tempArray,'course_code');
 			array_push($tempArrayValues,$keywordCourseCode);
 		}
+		if($tempArray == null)//check if no checkbox is checked
+			redirect('home');
+
 		//the default sort is by title ascending
 		$sort="order by title asc";
 
@@ -250,9 +253,7 @@ class Home extends CI_Controller{
 				$sort = "order by author asc";
 			}
 		}
-//------------modify
-		$reftype = $this->input->get('reftype');
-		//var_dump($reftype);
+
 
 		//we need this for the pagination uri
 		$q1 = $tempArray[array_search('title', $tempArray)];
@@ -272,6 +273,20 @@ class Home extends CI_Controller{
 		$config['page_query_string'] = TRUE;
 		$config['next_link'] = 'Next';
 		$config['prev_link'] = 'Previous';
+	//------------modify
+		$reftype = $this->input->get('reftype');
+		//var_dump($reftype);
+//"select * from reference_material where category = (select * from reference_material where category = 'B')
+		/*
+		SELECT * 
+FROM reference_material
+WHERE category
+IN (
+
+SELECT category
+FROM reference_material
+WHERE category =  'B'
+)*/
 		//we run the query
 		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit {$_GET['per_page']},{$config['per_page']}");
 		$result2 = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort}");
@@ -305,8 +320,9 @@ SELECT * FROM `reference_material` WHERE title like '%a%' or author like '%carlo
 		$data['title'] = "Advanced Search - ICS Library System";
 
 		$this->load->view('advanced_search_view',$data);
-
-
 	}
-}
+
+
+	
+}//end of controller class
 ?>

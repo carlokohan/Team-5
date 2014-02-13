@@ -125,6 +125,14 @@ class User_model extends CI_Model{
 		return $this->db->query("select * from reference_material where times_borrowed = (select max(times_borrowed) from reference_material)");
 	}
 
+	/**
+	*	Function gets all the emails from user table
+	*	@return rows from db || null
+	*/
+	public function get_all_users(){
+		return $this->db->query('select email_address from users');
+	}
+
 	public function edit_profile(){}
 }
 

@@ -1,13 +1,6 @@
 <?=$this->load->view("includes/header")?>
 	<!-- Insert contents here -->
-	<?php 
-
-$date = date('Y-m-d H:m:s');
-		$newdate = strtotime ( '+3 day' , strtotime( $date ));
-		$newdate = date('F j, Y',$newdate);
-		echo 'Your <b>reservation</b> is due on: <h1>'.$newdate.'</h1>Please be guided.<br/><br/>-Librarian';
 	
-	?>
 	<form action="<?php echo base_url('index.php/home/search_reference'); ?>" method="get" accept-charset="utf-8"  >		
 		<input type="text" name="keyword" size="50"/>
 		<input type="submit" value="Search" onclick="javascript: return validateSearch()"/> 
@@ -51,7 +44,8 @@ $date = date('Y-m-d H:m:s');
 
 		<?php 
 		echo anchor('email', 'Click for mail').'<br/>';
-		echo anchor('report_controller', 'Generate Report');
+		echo anchor('report_controller', 'Generate Report').'<br/>';
+		echo anchor('email/email_template','Admin mail notification');
 		?>
 	
 <?=$this->load->view("includes/footer")?>

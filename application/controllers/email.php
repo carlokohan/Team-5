@@ -14,6 +14,7 @@ class Email extends CI_Controller{
 	 */
 	function Email(){
 		parent::__construct();
+		$this->load->model('user_model');
 	}
 
 	/**
@@ -55,7 +56,33 @@ class Email extends CI_Controller{
 		}
 	}
 
-/**
-* additional: admin wants to email all users,
-*/	
+	/**
+	 * Email template for the admin
+	 *
+	 * @access	public
+	 */
+	function email_template(){
+		$data["title"] = "Home - ICS Library System";
+		$this->load->view("admin_mail_all", $data);
+	}	
+
+	/**
+	 * Function to mail all users
+	 *
+	 * @access	public
+	 */
+	function email_all(){
+		$data["title"] = "Home - ICS Library System";
+		$this->load->view("admin_mail_all", $data);
+		$result = $this->user_model->get_all_users();
+			
+		if($result->num_rows() > 0){
+			$data['rows'] = $result->result();
+				//^we get all rows
+			redirect('home');
+		}
+		else{
+			redirect('home');
+		}
+	}
 }
