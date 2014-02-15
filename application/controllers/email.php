@@ -75,11 +75,44 @@ class Email extends CI_Controller{
 		$data["title"] = "Home - ICS Library System";
 		$this->load->view("admin_mail_all", $data);
 		$result = $this->user_model->get_all_users();
-			
+		$message = $this->input->post('message');
+		$counterrors=0;
 		if($result->num_rows() > 0){
 			$data['rows'] = $result->result();
 				//^we get all rows
-			redirect('home');
+			//var_dump($data['rows']);
+			foreach ($data['rows'] as $r) {
+				
+				$config = Array(
+				'protocol' => "smtp",
+				'smtp_host' => "ssl://smtp.googlemail.com",
+				'smtp_port' => 465,
+				'smtp_user' => "user.librarian@gmail.com",
+				'smtp_pass' => "userlibrarian",//password
+				'mailtype'  => 'html',
+				'charset' => 'utf-8'//onlib.administrator@gmail
+				);//useradministrator - password
+
+				$date = date('Y-m-d H:m:s');
+				$newdate = strtotime ( '+3 day' , strtotime( $date ));
+				$newdate = date('F j, Y',$newdate);
+
+				$this->load->library("email", $config);//we pass our configuration
+				$this->email->set_newline("\r\n");
+
+				$this->email->from("user.librarian@gmail.com", "ICS Library Administrator");
+				//sample only
+				$this->email->to($r->email_address);
+				$this->email->subject("ICS Library Administrator's notice");
+				$this->email->message($message);
+
+				if($this->email->send()){//if sent successfully
+					continue;
+				}
+				else{
+					$counterrors++;
+				}
+			}//end foreach
 		}
 		else{
 			redirect('home');

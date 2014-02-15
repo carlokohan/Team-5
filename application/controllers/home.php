@@ -40,7 +40,7 @@ class Home extends CI_Controller{
 		$keyword = ltrim($keyword);
 		$keyword = rtrim($keyword);
 		//replace special characters with nothing
-		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
+		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':','\'');
 		$keyword = str_replace($order, '', $keyword);
 		$config['per_page'] = 10;
 		$config['base_url'] = base_url("index.php/home/search_reference?keyword={$_GET['keyword']}");
@@ -57,7 +57,10 @@ class Home extends CI_Controller{
 			if(!isset($_GET['per_page']))//used for pagination
 				$_GET['per_page'] = 0;
 			
-			$result1 = $this->user_model->search_reference_material($keyword,$config['per_page'],$_GET['per_page']);
+			//$_GET['per_page'] = str_replace($order, '', $_GET['per_page'])
+				$temporary = $_GET['per_page'];
+				$temporary = str_replace($order, '', $temporary);
+			$result1 = $this->user_model->search_reference_material($keyword,$config['per_page'],$temporary);
 			
 			if($result1->num_rows() > 0){
 				$data['rows'] = $result1->result();
@@ -122,7 +125,7 @@ class Home extends CI_Controller{
 		$tempArray = array();//for keywords
 		$tempArrayValues = array();//for the values
 		//replace special characters with nothing
-		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':');
+		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':','\'');
 		$query = "";//for query
 
 		/*
@@ -264,6 +267,8 @@ class Home extends CI_Controller{
 		if(!isset($_GET['per_page']) || $_GET['per_page'] == null)
 			$_GET['per_page'] = 0;
 
+		$temporary = $_GET['per_page'];
+		$temporary = str_replace($order, '', $temporary);
 
 		$data['temparray'] = $tempArray;
 		$data['temparrayvalues'] = $tempArrayValues;
@@ -288,7 +293,7 @@ FROM reference_material
 WHERE category =  'B'
 )*/
 		//we run the query
-		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit {$_GET['per_page']},{$config['per_page']}");
+		$result = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort} limit {$temporary},{$config['per_page']}");
 		$result2 = $this->user_model->advanced_search("Select * from reference_material where {$query} {$sort}");
 		if($result->num_rows() > 0){
 			$data['rows'] = $result->result();
