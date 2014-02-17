@@ -56,10 +56,12 @@ class Home extends CI_Controller{
 		else{
 			if(!isset($_GET['per_page']))//used for pagination
 				$_GET['per_page'] = 0;
-			
+			$order2  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':','\'','a','b','c',
+			'd','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G',
+			'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 			//$_GET['per_page'] = str_replace($order, '', $_GET['per_page'])
 				$temporary = $_GET['per_page'];
-				$temporary = str_replace($order, '', $temporary);
+				$temporary = str_replace($order2, '', $temporary);
 			$result1 = $this->user_model->search_reference_material($keyword,$config['per_page'],$temporary);
 			
 			if($result1->num_rows() > 0){
@@ -125,7 +127,9 @@ class Home extends CI_Controller{
 		$tempArray = array();//for keywords
 		$tempArrayValues = array();//for the values
 		//replace special characters with nothing
-		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':','\'');
+		$order  = array('\\','\/','@','!','#','&','$','%','^','*','(',')','+','=',',','.','<','>','?','[',']',':','\'','a','b','c',
+			'd','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G',
+			'H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 		$query = "";//for query
 
 		/*
@@ -310,7 +314,8 @@ WHERE category =  'B'
 			//we previously stored in the array the values of those that are checked;
 			//$tempArrayValues[array_search('title')]
 			/*
-SELECT * FROM `reference_material` WHERE title like '%a%' or author like '%carlo%' IN (Select * from `reference_material` where category = 'B')
+SELECT * FROM `reference_material` WHERE title like '%a%' or author like 
+'%carlo%' IN (Select * from `reference_material` where category = 'B')
 			*/
 
 		}
